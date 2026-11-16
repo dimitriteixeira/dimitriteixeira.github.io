@@ -1,12 +1,11 @@
 
-# Site de Portfolio Exemplo
-
-Esse site foi criado com objetivo de demonstrar como criar uma página estática simples de Portfolio de apresentação e publicar no Github pages. 
+# Meu Site
+Aqui compartilho conteúdo de qualidade de forma 100% gratuita!
 
 
 ## Saiba Mais
 
- - [Como Criar Site Portfolio (Passo a Passo)](https://www.youtube.com/watch?v=2fIupcgXgHU)
- - [Conheça Meu Curso Completo](https://curso.programacaoweb.com.br)
+ - [Conheça Meu Canal de Programação](https://www.youtube.com/@programacaoweb)
+ - [Conheça Meu Canal Pessoal](https://www.youtube.com/@dimitriteixeira)
 
 
