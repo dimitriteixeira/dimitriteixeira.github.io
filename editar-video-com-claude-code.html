@@ -50,9 +50,24 @@
   .wrap { max-width: 720px; --w: 720px; margin: 0 auto; padding: 0 20px 96px; position: relative; }
 
   /* cabeçalho */
-  .meta { text-align: center; color: var(--muted); font-size: 14px; padding-top: 56px; }
+  .home { display: flex; width: fit-content; margin: 0 auto; align-items: center; gap: 10px; padding: 6px 14px 6px 6px; margin-top: 32px; border-radius: 999px;
+    background: var(--panel); border: 1px solid var(--line); color: var(--ink); text-decoration: none; font: 600 14px var(--sans); transition: background .2s, transform .2s; }
+  .home:hover { background: var(--panel-2); transform: translateY(-1px); }
+  .home img { width: 32px; height: 32px; border-radius: 50%; background: #2A2B2E; image-rendering: pixelated; }
+  .meta { text-align: center; color: var(--muted); font-size: 14px; padding-top: 24px; }
   h1 span { display: block; }
   h1 { font: 700 42px/1.1 var(--display); color: var(--ink); text-transform: uppercase; text-align: center; letter-spacing: -.01em; margin: 14px 0 30px; }
+  .share { position: relative; display: flex; justify-content: center; margin: -14px 0 26px; }
+  .share-btn { display: inline-flex; align-items: center; gap: 8px; background: none; border: 0; padding: 6px 10px; border-radius: 8px; color: var(--muted); font: 500 14px var(--sans); cursor: pointer; transition: color .2s, background .2s; }
+  .share-btn:hover, .share-btn[aria-expanded="true"] { color: var(--ink); background: var(--panel); }
+  .share-btn svg { width: 16px; height: 16px; }
+  .share-menu { position: absolute; top: calc(100% + 6px); left: 50%; transform: translate(-50%, -4px); min-width: 220px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 6px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.5); opacity: 0; visibility: hidden; transition: opacity .15s, transform .15s, visibility .15s; z-index: 30; }
+  .share-menu.on { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+  .share-menu a, .share-menu button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; border: 0; border-radius: 8px; background: none; color: var(--text); font: 500 14px var(--sans); text-decoration: none; cursor: pointer; text-align: left; }
+  .share-menu a:hover, .share-menu button:hover { background: rgba(255,255,255,.06); color: var(--ink); }
+  .share-menu svg { width: 18px; height: 18px; flex: none; }
+  .share-menu hr { border: 0; border-top: 1px solid var(--line); margin: 6px 4px; }
   .byline { display: flex; align-items: center; gap: 12px; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .byline .av { width: 32px; height: 32px; border-radius: 50%; background: #2A2B2E; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: var(--ink); overflow: hidden; }
   .byline .av img { width: 100%; height: 100%; object-fit: cover; }
@@ -154,7 +169,7 @@
   @media print { .wa { display: none; } }
   @media (max-width: 900px) { .rail { display: none; } }
   @media (max-width: 560px) {
-    h1 { font-size: 30px; } h1 span { display: inline; } .meta { padding-top: 36px; }
+    h1 { font-size: 30px; } h1 span { display: inline; } .meta { padding-top: 20px; } .home { margin-top: 24px; }
     .duo { grid-template-columns: 1fr; }
   }
 </style>
@@ -189,8 +204,26 @@
 </aside>
 
 <div class="wrap">
+  <a class="home" href="index.html" aria-label="Voltar para a página inicial"><img src="assets/imgs/dimitri-pixel.webp" alt="" width="32" height="32" />Dimitri Teixeira</a>
   <div class="meta">Passo a passo · 9 etapas · prompts reais</div>
   <h1><span>Como o Claude Code</span> <span>edita meus vídeos</span></h1>
+  <div class="share">
+    <button class="share-btn" id="shareBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="shareMenu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 5l7 7-7 7"/><path d="M21 12H11a7 7 0 0 0-7 7v1"/></svg>
+      Compartilhar
+    </button>
+    <div class="share-menu" id="shareMenu" role="menu">
+      <a role="menuitem" data-net="whatsapp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#25D366" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.13c-.24.68-1.42 1.3-1.95 1.35-.5.05-1.13.07-1.82-.11-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.79-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.26-.29.58-.36.77-.36h.55c.18 0 .42-.07.66.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.5-.14.14-.29.3-.13.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.42.29.14.46.12.62-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.26.1 1.68.79 1.97.94.29.14.48.22.55.34.07.12.07.7-.17 1.37Z"/></svg>WhatsApp</a>
+      <a role="menuitem" data-net="telegram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#29A9EB" d="M21.94 4.3 18.9 18.65c-.23 1.01-.83 1.26-1.68.79l-4.64-3.42-2.24 2.16c-.25.25-.46.46-.94.46l.33-4.73 8.6-7.77c.37-.33-.08-.52-.58-.19L7.11 12.64 2.53 11.2c-1-.31-1.01-1 .21-1.48L20.6 2.84c.83-.31 1.56.19 1.34 1.46Z"/></svg>Telegram</a>
+      <a role="menuitem" data-net="x" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#FFFFFF" d="M17.75 3h3.07l-6.71 7.67L22 21h-6.18l-4.84-6.33L5.44 21H2.37l7.18-8.2L2 3h6.34l4.37 5.78L17.75 3Zm-1.08 16.18h1.7L7.4 4.73H5.58l11.09 14.45Z"/></svg>X (Twitter)</a>
+      <a role="menuitem" data-net="linkedin" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#0A66C2" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>LinkedIn</a>
+      <a role="menuitem" data-net="facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1877F2" d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07Z"/></svg>Facebook</a>
+      <a role="menuitem" data-net="email"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#B3B3B3" d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm1 2.2V17h16V7.2l-8 5.3-8-5.3ZM5.3 7 12 11.4 18.7 7H5.3Z"/></svg>E-mail</a>
+      <hr />
+      <button role="menuitem" type="button" data-net="copy"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#D1FE17" d="M10.6 13.4a1 1 0 0 1 0-1.4l3.5-3.5a1 1 0 1 1 1.4 1.4L12 13.4a1 1 0 0 1-1.4 0ZM8.5 20a4.5 4.5 0 0 1-3.2-7.7l2.5-2.5a1 1 0 0 1 1.4 1.4l-2.5 2.5a2.5 2.5 0 0 0 3.5 3.5l2.5-2.5a1 1 0 0 1 1.4 1.4l-2.5 2.5A4.5 4.5 0 0 1 8.5 20Zm7.6-5.8a1 1 0 0 1-.7-1.7l2.5-2.5a2.5 2.5 0 0 0-3.5-3.5l-2.5 2.5a1 1 0 1 1-1.4-1.4L13 5.1a4.5 4.5 0 0 1 6.4 6.4l-2.5 2.5a1 1 0 0 1-.8.2Z"/></svg>Copiar link</button>
+      <button role="menuitem" type="button" data-net="native" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#B3B3B3" d="M6 10a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm6 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm6 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z"/></svg>Mais opções</button>
+    </div>
+  </div>
   <div class="byline">
     <a class="yt" href="https://www.youtube.com/watch?v=A99SUUq-5kk" target="_blank" rel="noopener">
       <svg viewBox="0 0 28.57 20" aria-hidden="true"><path fill="#FF0000" d="M27.973 3.123A3.578 3.578 0 0 0 25.447.597C23.22 0 14.285 0 14.285 0S5.35 0 3.123.597A3.578 3.578 0 0 0 .597 3.123C0 5.35 0 10 0 10s0 4.65.597 6.877a3.578 3.578 0 0 0 2.526 2.526C5.35 20 14.285 20 14.285 20s8.935 0 11.162-.597a3.578 3.578 0 0 0 2.526-2.526C28.57 14.65 28.57 10 28.57 10s-.002-4.65-.597-6.877Z"/><path fill="#fff" d="M11.43 14.286 18.854 10 11.43 5.714v8.572Z"/></svg>
@@ -562,6 +595,37 @@ Direção:
       setTimeout(() => { copy.textContent = old; copy.classList.remove("ok"); }, 1600);
     });
   });
+
+  // compartilhar
+  const shareBtn = $("#shareBtn"), shareMenu = $("#shareMenu");
+  const url = ($('link[rel="canonical"]') || {}).href || location.href, title = $('meta[property="og:title"]').content;
+  const u = encodeURIComponent(url), t = encodeURIComponent(title);
+  const nets = {
+    whatsapp: "https://wa.me/?text=" + t + "%20" + u,
+    telegram: "https://t.me/share/url?url=" + u + "&text=" + t,
+    x: "https://twitter.com/intent/tweet?url=" + u + "&text=" + t,
+    linkedin: "https://www.linkedin.com/sharing/share-offsite/?url=" + u,
+    facebook: "https://www.facebook.com/sharer/sharer.php?u=" + u,
+    email: "mailto:?subject=" + t + "&body=" + t + "%0A%0A" + u,
+  };
+  $$("a[data-net]", shareMenu).forEach((a) => (a.href = nets[a.dataset.net]));
+  if (navigator.share) $('[data-net="native"]', shareMenu).hidden = false;
+  const setMenu = (on) => { shareMenu.classList.toggle("on", on); shareBtn.setAttribute("aria-expanded", on); };
+  shareBtn.addEventListener("click", (e) => { e.stopPropagation(); setMenu(!shareMenu.classList.contains("on")); });
+  shareMenu.addEventListener("click", async (e) => {
+    const item = e.target.closest("[data-net]"); if (!item) return;
+    if (item.dataset.net === "copy") {
+      try { await navigator.clipboard.writeText(url); }
+      catch (_) { const ta = document.createElement("textarea"); ta.value = url; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); } catch (__) {} ta.parentNode.removeChild(ta); }
+      toast.textContent = "Link copiado"; toast.classList.add("on"); clearTimeout(tt);
+      tt = setTimeout(() => { toast.classList.remove("on"); toast.textContent = "Prompt copiado"; }, 1400);
+    } else if (item.dataset.net === "native") {
+      try { await navigator.share({ title, url }); } catch (_) {}
+    }
+    setMenu(false);
+  });
+  document.addEventListener("click", (e) => { if (!e.target.closest(".share")) setMenu(false); });
+  addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
 
   // trilho das etapas + barra de progresso
   const rail = $("#rail"), links = $$("#rail a"), secs = links.map((a) => $(a.getAttribute("href"))), railn = $("#railn");
