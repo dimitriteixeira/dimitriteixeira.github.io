@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Claude Code Gera B-rolls</title>
+<meta name="description" content="Passo a passo com os prompts reais para ligar o Claude Code ao Google Flow por um MCP e gerar B-rolls sozinho na edição." />
+<meta name="author" content="Dimitri Teixeira" />
+<meta name="robots" content="index, follow" />
+<meta name="theme-color" content="#0B0C0D" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:site_name" content="Dimitri Teixeira" />
+<meta property="og:title" content="Como o Claude Code gera B-rolls no Google Flow" />
+<meta property="og:description" content="Passo a passo com os prompts reais para ligar o Claude Code ao Google Flow por um MCP e gerar B-rolls sozinho na edição." />
+<link rel="canonical" href="https://dimitriteixeira.github.io/b-roll-com-ia-google-flow.html" />
+<meta property="og:url" content="https://dimitriteixeira.github.io/b-roll-com-ia-google-flow.html" />
+<meta property="og:image" content="https://dimitriteixeira.github.io/og-b-roll-com-ia-google-flow.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Dimitri Teixeira com B-rolls de café gerados pelo Claude Code no Google Flow" />
+<meta property="article:author" content="Dimitri Teixeira" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Como o Claude Code gera B-rolls no Google Flow" />
+<meta name="twitter:description" content="Passo a passo com os prompts reais para ligar o Claude Code ao Google Flow por um MCP e gerar B-rolls sozinho na edição." />
+<meta name="twitter:image" content="https://dimitriteixeira.github.io/og-b-roll-com-ia-google-flow.jpg" />
+<link rel="icon" href="data:image/png;base64,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" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0B0C0D; --panel: #17181A; --panel-2: #1E1F22; --line: rgba(255,255,255,.08);
+    --ink: #FFFFFF; --text: rgba(255,255,255,.8); --muted: #828282;
+    --lime: #D1FE17; --lime-ink: #1A1A1A;
+    --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 32px; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 var(--sans); -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: var(--lime); }
+  code { font: .88em var(--mono); background: var(--panel-2); padding: .12em .42em; border-radius: 6px; color: var(--ink); word-break: break-word; }
+  strong { color: var(--ink); font-weight: 600; }
+
+  .wrap { max-width: 720px; --w: 720px; margin: 0 auto; padding: 0 20px 96px; position: relative; }
+
+  /* cabeçalho */
+  .home { display: flex; width: fit-content; margin: 0 auto; align-items: center; gap: 10px; padding: 6px 14px 6px 6px; margin-top: 32px; border-radius: 999px;
+    background: var(--panel); border: 1px solid var(--line); color: var(--ink); text-decoration: none; font: 600 14px var(--sans); transition: background .2s, transform .2s; }
+  .home:hover { background: var(--panel-2); transform: translateY(-1px); }
+  .home img { width: 32px; height: 32px; border-radius: 50%; background: #2A2B2E; image-rendering: pixelated; }
+  .meta { text-align: center; color: var(--muted); font-size: 14px; padding-top: 24px; }
+  h1 span { display: block; }
+  h1 { font: 700 42px/1.1 var(--display); color: var(--ink); text-transform: uppercase; text-align: center; letter-spacing: -.01em; margin: 14px 0 30px; }
+  .share { position: relative; display: flex; justify-content: center; margin: -14px 0 26px; }
+  .share-btn { display: inline-flex; align-items: center; gap: 8px; background: none; border: 0; padding: 6px 10px; border-radius: 8px; color: var(--muted); font: 500 14px var(--sans); cursor: pointer; transition: color .2s, background .2s; }
+  .share-btn:hover, .share-btn[aria-expanded="true"] { color: var(--ink); background: var(--panel); }
+  .share-btn svg { width: 16px; height: 16px; }
+  .share-menu { position: absolute; top: calc(100% + 6px); left: 50%; transform: translate(-50%, -4px); min-width: 220px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 6px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.5); opacity: 0; visibility: hidden; transition: opacity .15s, transform .15s, visibility .15s; z-index: 30; }
+  .share-menu.on { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+  .share-menu a, .share-menu button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; border: 0; border-radius: 8px; background: none; color: var(--text); font: 500 14px var(--sans); text-decoration: none; cursor: pointer; text-align: left; }
+  .share-menu a:hover, .share-menu button:hover { background: rgba(255,255,255,.06); color: var(--ink); }
+  .share-menu svg { width: 18px; height: 18px; flex: none; }
+  .share-menu hr { border: 0; border-top: 1px solid var(--line); margin: 6px 4px; }
+  .byline { display: flex; align-items: center; gap: 12px; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .byline .av { width: 32px; height: 32px; border-radius: 50%; background: #2A2B2E; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: var(--ink); overflow: hidden; }
+  .byline .av img { width: 100%; height: 100%; object-fit: cover; }
+  .byline b { color: var(--ink); font-weight: 500; font-size: 14px; }
+  .byline .sp { flex: 1; }
+  .byline .chip { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+  .byline .chip, .byline .yt { white-space: nowrap; }
+  .byline .yt { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font-weight: 500; font-size: 14px; text-decoration: none; transition: color .2s; }
+  .byline .yt svg { width: 24px; height: auto; flex: none; transition: transform .2s; }
+  .byline .yt:hover { color: #FF4D4D; }
+  .byline .yt:hover svg { transform: scale(1.1); }
+  .hero { margin: 32px 0 28px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+  .intro p { margin: 0 0 6px; }
+
+  /* etapas */
+  .step { padding: 40px 0 8px; border-top: 1px solid var(--line); margin-top: 32px; }
+  .step:first-of-type { margin-top: 28px; }
+  h2 { font: 600 24px/1.3 var(--sans); color: var(--ink); margin: 0 0 16px; }
+  h3 { font: 600 18px/1.3 var(--sans); color: var(--ink); margin: 26px 0 12px; }
+  p { margin: 12px 0; }
+  ul { margin: 0; padding-left: 20px; } li { margin: 4px 0; }
+
+  figure { margin: 16px 0; }
+  figure img { border-radius: 12px; border: 1px solid var(--line); width: 100%; cursor: zoom-in; }
+  figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .duo figure { margin: 0; }
+  .icons { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
+  .icons img { width: 88px; height: 88px; border-radius: 20px; background: var(--panel); border: 1px solid var(--line); padding: 8px; }
+
+  .tip { display: flex; gap: 14px; background: var(--panel); border-radius: 12px; padding: 16px 18px; margin: 16px 0; }
+  .tip .e { font-size: 18px; line-height: 1.5; }
+  .tip ul, .tip p { margin: 0; }
+
+  /* caixa de prompt */
+  .prompt { background: var(--panel); border-radius: 12px; padding: 16px 16px 12px; margin: 16px 0; }
+  .prompt .lbl { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .prompt pre { margin: 0; font: 14.5px/1.6 var(--sans); color: var(--text); white-space: pre-wrap; word-break: break-word; max-height: 7.2em; overflow: hidden; position: relative;
+    -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent); }
+  .prompt.code pre { font: 14px/1.65 var(--mono); }
+  .prompt.open pre, .prompt.short pre { max-height: none; -webkit-mask-image: none; mask-image: none; }
+  .prompt .act { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+  .prompt .act .sp { flex: 1; }
+  .see { background: none; border: 0; color: var(--muted); font: 500 14px var(--sans); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; padding: 6px 0; }
+  .see:hover { color: var(--ink); }
+  .see svg { transition: transform .2s; } .prompt.open .see svg { transform: rotate(180deg); }
+  .prompt.short .see { visibility: hidden; }
+  .btn { border: 0; border-radius: 8px; height: 36px; padding: 0 14px; font: 600 14px var(--sans); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+  .btn.copy { background: var(--lime); color: var(--lime-ink); }
+  .btn.copy:hover { filter: brightness(1.06); }
+  .btn.copy.ok { background: #FFFFFF; }
+
+  .tree { background: var(--panel); border-radius: 12px; padding: 16px 18px; font: 13.5px/1.75 var(--mono); color: var(--text); white-space: pre; overflow-x: auto; margin: 16px 0; }
+  .tree i { color: var(--muted); font-style: normal; }
+
+  .done { margin-top: 48px; text-align: center; padding: 36px 20px; background: var(--panel); border-radius: 16px; }
+  .done h2 { font: 700 28px/1.2 var(--display); text-transform: uppercase; margin-bottom: 8px; }
+
+  /* trilho das etapas (esquerda) */
+  .rail { position: fixed; top: 50%; transform: translateY(-50%); left: max(16px, calc(50% - 360px - 72px)); display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 5; opacity: 0; transition: opacity .3s; }
+  .rail.on { opacity: 1; }
+  .rail .n { font: 600 13px var(--sans); color: var(--ink); margin-bottom: 4px; }
+  .rail a { width: 4px; height: 12px; border-radius: 4px; background: rgba(255,255,255,.18); display: block; position: relative; transition: height .25s, background .25s; }
+  .rail a.on { height: 24px; background: var(--ink); }
+  .rail a.past { background: rgba(255,255,255,.45); }
+  .rail a span { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); white-space: nowrap; background: var(--panel-2); color: var(--ink); font: 500 13px var(--sans); padding: 5px 10px; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity .15s; }
+  .rail a:hover span { opacity: 1; }
+  .bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--lime); width: 0; z-index: 10; }
+
+  .lb { position: fixed; inset: 0; background: rgba(0,0,0,.88); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 50; cursor: zoom-out; }
+  .lb.on { display: flex; } .lb img { max-height: 100%; border-radius: 12px; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 16px); background: var(--lime); color: var(--lime-ink); font: 600 14px var(--sans); padding: 10px 16px; border-radius: 8px; opacity: 0; transition: .2s; z-index: 60; pointer-events: none; }
+  .toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+  /* telas grandes: coluna mais larga + sumário à direita */
+  .toc { display: none; }
+  @media (min-width: 1280px) {
+    .wrap { max-width: 800px; --w: 800px; }
+    .rail { left: max(16px, calc(50% - 400px - 72px)); }
+    .toc { display: block; position: fixed; top: 50%; transform: translateY(-50%); left: calc(50% + 400px + 48px); width: 230px; max-height: 80vh; overflow: auto; z-index: 5; }
+    .toc .t { font: 600 12px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px 12px; }
+    .toc a { display: block; color: var(--muted); text-decoration: none; font: 500 14px/1.35 var(--sans); padding: 8px 12px; border-left: 2px solid var(--line); transition: color .2s, border-color .2s; }
+    .toc a:hover { color: var(--ink); }
+    .toc a.on { color: var(--ink); border-left-color: var(--lime); }
+  }
+  @media (min-width: 1600px) {
+    .wrap { max-width: 860px; --w: 860px; }
+    .rail { left: max(16px, calc(50% - 430px - 72px)); }
+    .toc { left: calc(50% + 430px + 56px); width: 260px; }
+    body { font-size: 17px; }
+  }
+  /* botão flutuante do WhatsApp */
+  .wa { position: fixed; right: 20px; bottom: 20px; z-index: 40; display: flex; align-items: center; gap: 10px; background: #25D366; color: #fff; text-decoration: none; height: 56px; padding: 0 16px; border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.08); font: 600 15px var(--sans); transition: transform .2s, box-shadow .2s; }
+  .wa:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(37,211,102,.35), 0 0 0 1px rgba(255,255,255,.12); }
+  .wa svg { width: 28px; height: 28px; flex: none; }
+  .wa span { max-width: 0; overflow: hidden; white-space: nowrap; transition: max-width .3s ease; }
+  .wa:hover span, .wa:focus-visible span { max-width: 190px; }
+  @media (max-width: 560px) { .wa { right: 14px; bottom: 14px; width: 54px; height: 54px; padding: 0; justify-content: center; } .wa span { display: none; } }
+  @media print { .wa { display: none; } }
+  @media (max-width: 900px) { .rail { display: none; } }
+  @media (max-width: 560px) {
+    h1 { font-size: 30px; } h1 span { display: inline; } .meta { padding-top: 20px; } .home { margin-top: 24px; }
+    .duo { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+
+<nav class="rail" id="rail" aria-label="Etapas">
+  <div class="n" id="railn">01</div>
+  <a href="#e1"><span>1. Antes de começar</span></a>
+  <a href="#e2"><span>2. Analise o MCP base</span></a>
+  <a href="#e3"><span>3. Instale e faça login</span></a>
+  <a href="#e4"><span>4. Ensine o Flow</span></a>
+  <a href="#e5"><span>5. Transforme em skill</span></a>
+  <a href="#e6"><span>6. Conecte ao Motion Editor</span></a>
+  <a href="#e7"><span>7. Peça os B-rolls</span></a>
+  <a href="#e8"><span>8. Quanto custa</span></a>
+  <a href="#e9"><span>9. Os dois cuidados</span></a>
+</nav>
+
+<aside class="toc" id="toc" aria-label="Nesta página">
+  <div class="t">Nesta página</div>
+  <a href="#e1">1. Antes de começar</a>
+  <a href="#e2">2. Analise o MCP base</a>
+  <a href="#e3">3. Instale e faça login</a>
+  <a href="#e4">4. Ensine o Flow</a>
+  <a href="#e5">5. Transforme em skill</a>
+  <a href="#e6">6. Conecte ao Motion Editor</a>
+  <a href="#e7">7. Peça os B-rolls</a>
+  <a href="#e8">8. Quanto custa</a>
+  <a href="#e9">9. Os dois cuidados</a>
+</aside>
+
+<div class="wrap">
+  <a class="home" href="index.html" aria-label="Voltar para a página inicial"><img src="assets/imgs/dimitri-pixel.webp" alt="" width="32" height="32" />Dimitri Teixeira</a>
+  <div class="meta">Passo a passo · 9 etapas · prompts reais</div>
+  <h1><span>Como o Claude Code</span> <span>gera B-rolls no Google Flow</span></h1>
+  <div class="share">
+    <button class="share-btn" id="shareBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="shareMenu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 5l7 7-7 7"/><path d="M21 12H11a7 7 0 0 0-7 7v1"/></svg>
+      Compartilhar
+    </button>
+    <div class="share-menu" id="shareMenu" role="menu">
+      <a role="menuitem" data-net="whatsapp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#25D366" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.13c-.24.68-1.42 1.3-1.95 1.35-.5.05-1.13.07-1.82-.11-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.79-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.26-.29.58-.36.77-.36h.55c.18 0 .42-.07.66.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.5-.14.14-.29.3-.13.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.42.29.14.46.12.62-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.26.1 1.68.79 1.97.94.29.14.48.22.55.34.07.12.07.7-.17 1.37Z"/></svg>WhatsApp</a>
+      <a role="menuitem" data-net="telegram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#29A9EB" d="M21.94 4.3 18.9 18.65c-.23 1.01-.83 1.26-1.68.79l-4.64-3.42-2.24 2.16c-.25.25-.46.46-.94.46l.33-4.73 8.6-7.77c.37-.33-.08-.52-.58-.19L7.11 12.64 2.53 11.2c-1-.31-1.01-1 .21-1.48L20.6 2.84c.83-.31 1.56.19 1.34 1.46Z"/></svg>Telegram</a>
+      <a role="menuitem" data-net="x" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#FFFFFF" d="M17.75 3h3.07l-6.71 7.67L22 21h-6.18l-4.84-6.33L5.44 21H2.37l7.18-8.2L2 3h6.34l4.37 5.78L17.75 3Zm-1.08 16.18h1.7L7.4 4.73H5.58l11.09 14.45Z"/></svg>X (Twitter)</a>
+      <a role="menuitem" data-net="linkedin" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#0A66C2" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>LinkedIn</a>
+      <a role="menuitem" data-net="facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1877F2" d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07Z"/></svg>Facebook</a>
+      <a role="menuitem" data-net="email"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#B3B3B3" d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm1 2.2V17h16V7.2l-8 5.3-8-5.3ZM5.3 7 12 11.4 18.7 7H5.3Z"/></svg>E-mail</a>
+      <hr />
+      <button role="menuitem" type="button" data-net="copy"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#D1FE17" d="M10.6 13.4a1 1 0 0 1 0-1.4l3.5-3.5a1 1 0 1 1 1.4 1.4L12 13.4a1 1 0 0 1-1.4 0ZM8.5 20a4.5 4.5 0 0 1-3.2-7.7l2.5-2.5a1 1 0 0 1 1.4 1.4l-2.5 2.5a2.5 2.5 0 0 0 3.5 3.5l2.5-2.5a1 1 0 0 1 1.4 1.4l-2.5 2.5A4.5 4.5 0 0 1 8.5 20Zm7.6-5.8a1 1 0 0 1-.7-1.7l2.5-2.5a2.5 2.5 0 0 0-3.5-3.5l-2.5 2.5a1 1 0 1 1-1.4-1.4L13 5.1a4.5 4.5 0 0 1 6.4 6.4l-2.5 2.5a1 1 0 0 1-.8.2Z"/></svg>Copiar link</button>
+      <button role="menuitem" type="button" data-net="native" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#B3B3B3" d="M6 10a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm6 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm6 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z"/></svg>Mais opções</button>
+    </div>
+  </div>
+  <div class="byline">
+    <a class="yt" href="https://youtube.com/@dimitriteixeira" target="_blank" rel="noopener">
+      <svg viewBox="0 0 28.57 20" aria-hidden="true"><path fill="#FF0000" d="M27.973 3.123A3.578 3.578 0 0 0 25.447.597C23.22 0 14.285 0 14.285 0S5.35 0 3.123.597A3.578 3.578 0 0 0 .597 3.123C0 5.35 0 10 0 10s0 4.65.597 6.877a3.578 3.578 0 0 0 2.526 2.526C5.35 20 14.285 20 14.285 20s8.935 0 11.162-.597a3.578 3.578 0 0 0 2.526-2.526C28.57 14.65 28.57 10 28.57 10s-.002-4.65-.597-6.877Z"/><path fill="#fff" d="M11.43 14.286 18.854 10 11.43 5.714v8.572Z"/></svg>
+      Assista no YouTube
+    </a>
+    <span class="sp"></span>
+    <span class="chip read"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>9 min de leitura</span>
+  </div>
+  <div class="hero"><img src="assets/imgs/b-roll-flow/capa.webp" width="1280" height="720" fetchpriority="high" decoding="async" alt="B-rolls gerados pelo Claude Code no Google Flow" /></div>
+  <div class="intro">
+    <p>O começo do meu vídeo tem cenas de café que eu nunca gravei: o Claude Code leu o roteiro, abriu o Google Flow sozinho, gerou os vídeos e encaixou cada um no tempo certo da fala. Aqui estão os prompts reais para montar esse fluxo. Copie, troque o que for do meu jeito pelo seu e siga na ordem.</p>
+  </div>
+
+  <!-- 1 -->
+  <section class="step" id="e1">
+    <h2>Etapa 1. Antes de começar</h2>
+    <p>O B-roll é gerado no <strong>Google Flow</strong>, com os créditos da sua própria conta. Quem clica, escreve o prompt e baixa o vídeo é o Claude, pelo navegador. Você vai precisar de três coisas:</p>
+    <div class="tip"><span class="e">💡</span><ul>
+      <li><strong>Claude Code</strong> instalado (<a href="https://claude.com/claude-code" target="_blank" rel="noopener">claude.com/claude-code</a>). Se você ainda não tem as skills de edição, comece pelo <a href="editar-video-com-claude-code.html">tutorial do Motion Editor</a></li>
+      <li>Uma conta do Google com acesso ao <a href="https://labs.google/flow" target="_blank" rel="noopener">Google Flow</a>. A conta Pro dá 1.000 créditos por mês e mais 50 por dia</li>
+      <li><strong>Uma conta de teste</strong>, só para isso. Não use a conta com seus e-mails, Drive ou canal (explico na Etapa 9)</li>
+    </ul></div>
+    <div class="duo">
+      <figure><img src="assets/imgs/b-roll-flow/imagem-02.webp" width="1280" height="720" loading="lazy" decoding="async" alt="B-roll de café gerado no Google Flow" data-lb /><figcaption>Os B-rolls do começo do vídeo saíram assim, sem eu abrir o Flow.</figcaption></figure>
+      <figure><img src="assets/imgs/b-roll-flow/imagem-03.webp" width="1280" height="720" loading="lazy" decoding="async" alt="O mesmo trecho só falando e com B-roll" data-lb /><figcaption>Só falando × com B-roll: no segundo você vê o que eu estou contando.</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="step" id="e2">
+    <h2>Etapa 2. Peça para o Claude analisar o MCP base</h2>
+    <p>O Flow não tem API no plano de assinatura. A ponte é um <strong>MCP</strong>: um conector que dá "mãos" para a IA usar outro sistema, aqui o navegador. Eu parti de um MCP pronto e pedi uma análise de segurança antes de instalar qualquer coisa.</p>
+    <div class="prompt short"><div class="lbl">Prompt</div><pre>https://github.com/GabrielGargiuloDev/google-flow-mcp
+
+Quero que você analise esse repositório e veja se ele é relativamente seguro e se a gente poderia utilizá-lo para gerar imagens com o Nano Banana ou até mesmo vídeos de forma automatizada com a minha conta do Google. Me diga se você acha que é plausível a gente usar isso. Não faça mais nada além dessa análise.</pre>
+      <div class="act"><button class="see">Ver tudo</button><span class="sp"></span><button class="btn copy">Copiar prompt</button></div></div>
+    <div class="tip"><span class="e">🔗</span><p>O MCP base é o <a href="https://github.com/GabrielGargiuloDev/google-flow-mcp" target="_blank" rel="noopener">GabrielGargiuloDev/google-flow-mcp</a> (licença MIT), que por sua vez foi adaptado do <a href="https://github.com/TMSSS05/google-flow-browser-mcp" target="_blank" rel="noopener">TMSSS05/google-flow-browser-mcp</a>. Obrigado aos dois.</p></div>
+    <div class="duo">
+      <figure><img src="assets/imgs/b-roll-flow/imagem-04.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Model Context Protocol" data-lb /><figcaption>MCP: a mão que faltava para o Claude.</figcaption></figure>
+      <figure><img src="assets/imgs/b-roll-flow/imagem-10.webp" width="1280" height="720" loading="lazy" decoding="async" alt="O MCP conecta a IA a sistemas externos" data-lb /><figcaption>Ele liga a IA a navegador, arquivos e outros apps.</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="step" id="e3">
+    <h2>Etapa 3. Instale e entre com a conta de teste</h2>
+    <p>Com a análise aprovada, peça a instalação. O MCP abre um <strong>Chrome separado</strong>, e é nele que você faz o login uma única vez. Por baixo, quem controla esse navegador é o <strong>Playwright</strong>.</p>
+    <div class="prompt short"><div class="lbl">Prompt</div><pre>Pode instalar esse MCP aqui no meu Claude Code. Eu tenho uma conta do Google de teste, que eu posso perder sem problema, e é com ela que eu quero usar. Me oriente passo a passo para fazer o login de forma segura no Chrome que você abrir: eu entro com o login na conta do navegador lá em cima ou direto no Flow? Depois faça um teste gerando uma imagem simples e me diga onde ela foi salva.</pre>
+      <div class="act"><button class="see">Ver tudo</button><span class="sp"></span><button class="btn copy">Copiar prompt</button></div></div>
+    <figure><img src="assets/imgs/b-roll-flow/imagem-11.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Playwright controlando o navegador" data-lb /></figure>
+    <div class="tip"><span class="e">🔒</span><p>O login fica salvo num perfil próprio desse Chrome. A sua conta pessoal nunca entra nele.</p></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="step" id="e4">
+    <h2>Etapa 4. Ensine o Flow do jeito certo</h2>
+    <p>O MCP base funcionava, mas não do jeito que eu queria. Estes foram os ajustes que fiz, conversando com o próprio Claude. Mande um de cada vez e teste depois de cada um:</p>
+    <div class="prompt short"><div class="lbl">Ajuste 1 · modo agente</div><pre>O Flow abre no modo agente, e é nele que tudo funciona: você descreve o que quer e o agente do Flow entende a intenção. Mantenha sempre o modo agente e só mande o pedido no chat dele. Escreva os pedidos em português.</pre>
+      <div class="act"><button class="see">Ver tudo</button><span class="sp"></span><button class="btn copy">Copiar prompt</button></div></div>
+    <div class="prompt short"><div class="lbl">Ajuste 2 · projeto e arquivos</div><pre>Sempre que for gerar um conjunto de imagens ou vídeos, crie um projeto novo e renomeie o nome do projeto (canto superior esquerdo) de acordo com esse conjunto. E sempre me retorne onde ficou salva cada imagem e cada vídeo no computador.</pre>
+      <div class="act"><button class="see">Ver tudo</button><span class="sp"></span><button class="btn copy">Copiar prompt</button></div></div>
+    <div class="prompt short"><div class="lbl">Ajuste 3 · download em 1080p</div><pre>Para baixar o vídeo, clique no vídeo gerado: ele abre numa nova janela. No canto superior direito tem um ícone de download; ao clicar, abre um menu com a opção de 1080p, que é sem custo. Use esse caminho para baixar.</pre>
+      <div class="act"><button class="see">Ver tudo</button><span class="sp"></span><button class="btn copy">Copiar prompt</button></div></div>
+    <div class="prompt short"><div class="lbl">Ajuste 4 · formato e quantidade</div><pre>Quero escolher o formato e a quantidade do que é gerado: proporção 9:16, 16:9 ou 1:1, e de uma a quatro imagens ou vídeos por pedido. Faça isso nas configurações do agente do Flow antes de mandar o pedido.</pre>
+      <div class="act"><button class="see">Ver tudo</button><span class="sp"></span><button class="btn copy">Copiar prompt</button></div></div>
+    <div class="prompt"><div class="lbl">Ajuste 5 · frame inicial e final</div><pre>Sempre que gerar imagens, renomeie cada uma com um nome de referência que possa ser citado no prompt depois. Por exemplo: gere uma imagem de um apartamento vazio (@sala-vazia) e depois a mesma sala, mesmo enquadramento, cheia de móveis (@sala-decorada). Na hora de gerar o vídeo, especifique no prompt que o frame inicial é @sala-vazia e o frame final é @sala-decorada, e descreva o movimento: os móveis aparecendo aos poucos, como um stop motion animado com um som ritmado.</pre>
+      <div class="act"><button class="see">Ver tudo <svg width="12" height="12" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button><span class="sp"></span><button class="btn copy">Copiar prompt</button></div></div>
+    <div class="prompt short"><div class="lbl">Ajuste 6 · créditos com aprovação</div><pre>Vídeo gasta créditos. Quando o Flow pedir confirmação, pare e me mostre o custo antes. Só aprove depois que eu disser sim. Nunca marque "Sempre aprovar no projeto".</pre>
+      <div class="act"><button class="see">Ver tudo</button><span class="sp"></span><button class="btn copy">Copiar prompt</button></div></div>
+  </section>
+
+  <!-- 5 -->
+  <section class="step" id="e5">
+    <h2>Etapa 5. Transforme em skill</h2>
+    <p>Com tudo funcionando, peça um resumo do que o MCP já faz e transforme isso numa skill. Assim qualquer conversa do Claude Code sabe usar o Flow.</p>
+    <div class="prompt short"><div class="lbl">Prompt</div><pre>Antes de criar a skill, me explique de forma resumida tudo que o MCP do Google Flow consegue fazer agora. Depois use a skill skill-creator e crie uma skill "google-flow" que ensina a usar esse MCP: gerar imagens com nome de referência, gerar vídeos (inclusive com frame inicial e final), baixar em 1080p, sempre informar onde os arquivos ficaram e sempre pedir a minha aprovação antes de gastar créditos.</pre>
+      <div class="act"><button class="see">Ver tudo</button><span class="sp"></span><button class="btn copy">Copiar prompt</button></div></div>
+  </section>
+
+  <!-- 6 -->
+  <section class="step" id="e6">
+    <h2>Etapa 6. Conecte ao Motion Editor</h2>
+    <p>Esse é o pedido que juntou tudo. Mande no chat da pasta da skill <strong>motion-editor</strong>:</p>
+    <div class="prompt short"><div class="lbl">Prompt</div><pre>Conecta esse MCP do Google Flow agora com o nosso Motion Editor. E cada vez que tiver uma oportunidade de colocar um B-roll mais elaborado, em vídeo ou em imagem, use o MCP do Google Flow para fazer isso.</pre>
+      <div class="act"><button class="see">Ver tudo</button><span class="sp"></span><button class="btn copy">Copiar prompt</button></div></div>
+    <figure><img src="assets/imgs/b-roll-flow/imagem-07.webp" width="1280" height="720" loading="lazy" decoding="async" alt="O pedido que conectou o MCP ao Motion Editor" data-lb /></figure>
+  </section>
+
+  <!-- 7 -->
+  <section class="step" id="e7">
+    <h2>Etapa 7. Peça os B-rolls na edição</h2>
+    <p>Daqui pra frente é só falar o que você quer. Este foi o pedido que gerou o começo do vídeo. O Claude leu a fala, escolheu as cenas, gerou cada uma no Flow, baixou e cortou no tempo certo da narração.</p>
+    <div class="prompt short"><div class="lbl">Prompt</div><pre>/motion-editor Edite para mim o vídeo: "D:\Videos\meu-video.mp4". Na parte em que eu falo sobre café e várias descrições do processo, devem ter pequenos trechos exemplificando o que eu estou falando, com vídeos de 3 segundos de B-roll que precisarão ser cortados para se encaixar na fala. Use o MCP do Google Flow para isso. Eu começo falando em tela cheia, rapidamente já faz uma transição para os B-rolls e na parte final eu devo voltar a aparecer em tela cheia.</pre>
+      <div class="act"><button class="see">Ver tudo</button><span class="sp"></span><button class="btn copy">Copiar prompt</button></div></div>
+    <figure><img src="assets/imgs/b-roll-flow/imagem-05.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Gravação real do Claude usando o Google Flow" data-lb /><figcaption>A gravação real: o Claude abriu o Flow, escreveu o prompt e gerou os cafés sozinho.</figcaption></figure>
+    <div class="tip"><span class="e">✏️</span><p>Troque o caminho do vídeo e descreva o trecho do seu jeito. Quanto mais claro o que cada cena deve mostrar, melhores os B-rolls.</p></div>
+  </section>
+
+  <!-- 8 -->
+  <section class="step" id="e8">
+    <h2>Etapa 8. Quanto custa</h2>
+    <p>Gerar <strong>imagens</strong> com o Nano Banana no Flow não gasta créditos. <strong>Vídeos</strong> gastam: fica entre 15 e 30 créditos por vídeo, dependendo do modelo e da duração (no meu teste, um vídeo de 4 s no Omni Flash custou 12 créditos). Com a conta Pro, você recebe 1.000 créditos por mês e mais 50 por dia.</p>
+    <div class="duo">
+      <figure><img src="assets/imgs/b-roll-flow/imagem-08.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Créditos da conta Pro do Google" data-lb /><figcaption>Créditos da conta Pro.</figcaption></figure>
+      <figure><img src="assets/imgs/b-roll-flow/imagem-09.webp" width="1280" height="720" loading="lazy" decoding="async" alt="O Claude pedindo aprovação antes de gastar créditos" data-lb /><figcaption>O Claude mostra o custo e espera o seu sim.</figcaption></figure>
+    </div>
+    <div class="tip"><span class="e">💸</span><p>O plano Pro custa por volta de R$ 96 por mês. Existem formas mais baratas (plano estudantil, assinatura compartilhada, promoções), então vale pesquisar antes.</p></div>
+  </section>
+
+  <!-- 9 -->
+  <section class="step" id="e9">
+    <h2>Etapa 9. Os dois cuidados</h2>
+    <p>O MCP usa a sua conta pelo navegador, <strong>como se fosse você</strong>. Isso é ótimo, mas traz duas consequências:</p>
+    <figure><img src="assets/imgs/b-roll-flow/imagem-06.webp" width="1280" height="720" loading="lazy" decoding="async" alt="É como se ele usasse o Flow no meu lugar" data-lb /></figure>
+    <div class="tip"><span class="e">⚠️</span><ul>
+      <li><strong>Pode quebrar.</strong> Se o Google mudar a interface do Flow, o MCP para de funcionar. Fique de olho durante a edição: sem isso, o Claude pode ficar tentando de novo e gastando tokens</li>
+      <li><strong>A conta pode ser bloqueada.</strong> As plataformas têm política contra uso automatizado. É raro, mas pode acontecer. Por isso, use uma conta de teste que você possa perder</li>
+    </ul></div>
+    <p>Quando quebrar, é só pedir para o Claude consertar. Foi o que aconteceu durante a edição deste vídeo: o Google trocou o nome de um botão e o Claude ajustou o MCP na hora.</p>
+    <div class="prompt short"><div class="lbl">Prompt</div><pre>O MCP do Google Flow parou de funcionar e está dando este erro: [cole o erro aqui]. Acho que a interface do Flow mudou. Abra o Flow no Chrome do MCP, veja como a tela está agora, ajuste o código do MCP para a interface nova e faça um teste. Não gaste créditos no teste sem me perguntar.</pre>
+      <div class="act"><button class="see">Ver tudo</button><span class="sp"></span><button class="btn copy">Copiar prompt</button></div></div>
+  </section>
+
+  <div class="done">
+    <h2>Pronto</h2>
+    <p>O Claude lê o roteiro, escolhe o B-roll, gera no Flow e encaixa na edição. Você só aprova.</p>
+  </div>
+</div>
+
+<a class="wa" id="wa" href="https://wa.me/554988950394?text=Oi%20Dimitri%2C%20peguei%20seu%20contato%20na%20p%C3%A1gina%20do%20B-roll%20com%20o%20Google%20Flow.%20Tudo%20bom%3F" target="_blank" rel="noopener" aria-label="Conversar com o Dimitri no WhatsApp">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16.04 3C9.4 3 4.02 8.37 4.02 15c0 2.12.55 4.18 1.6 6L4 29l8.2-1.6a12 12 0 0 0 3.84.62C22.67 28.02 28.05 22.64 28.05 16S22.67 3 16.04 3zm0 21.9c-1.2 0-2.38-.2-3.5-.6l-.5-.18-4.87.95.98-4.74-.2-.5A9.9 9.9 0 0 1 6.1 15c0-5.46 4.45-9.9 9.94-9.9s9.94 4.44 9.94 9.9-4.45 9.9-9.94 9.9zm5.5-7.4c-.3-.15-1.78-.88-2.06-.98-.27-.1-.47-.15-.67.15-.2.3-.77.98-.94 1.18-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.6.14-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.62-.92-2.22-.24-.58-.48-.5-.67-.5h-.57c-.2 0-.52.08-.8.38-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.5.7.3 1.26.5 1.7.62.72.23 1.37.2 1.88.12.57-.08 1.78-.73 2.03-1.43.25-.7.25-1.3.17-1.43-.07-.12-.27-.2-.57-.35z"/></svg>
+  <span>Fale comigo</span>
+</a>
+
+<div class="lb" id="lb"><img alt="" /></div>
+<div class="toast" id="toast">Prompt copiado</div>
+
+<script>
+(function () {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const toast = $("#toast"); let tt;
+
+  // ver tudo + copiar
+  $$(".prompt").forEach((p) => {
+    const pre = p.querySelector("pre"), see = p.querySelector(".see"), copy = p.querySelector(".copy");
+    if (!p.classList.contains("short") && pre.scrollHeight <= pre.clientHeight + 4) p.classList.add("short");
+    see.addEventListener("click", () => { p.classList.toggle("open"); see.firstChild.textContent = p.classList.contains("open") ? "Ver menos " : "Ver tudo "; });
+    copy.addEventListener("click", async () => {
+      const text = pre.innerText;
+      try { await navigator.clipboard.writeText(text); }
+      catch (e) { const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); } catch (_) {} ta.remove(); }
+      const old = copy.textContent; copy.textContent = "Copiado ✓"; copy.classList.add("ok");
+      toast.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove("on"), 1400);
+      setTimeout(() => { copy.textContent = old; copy.classList.remove("ok"); }, 1600);
+    });
+  });
+
+  // compartilhar
+  const shareBtn = $("#shareBtn"), shareMenu = $("#shareMenu");
+  const url = ($('link[rel="canonical"]') || {}).href || location.href, title = $('meta[property="og:title"]').content;
+  const u = encodeURIComponent(url), t = encodeURIComponent(title);
+  const nets = {
+    whatsapp: "https://wa.me/?text=" + t + "%20" + u,
+    telegram: "https://t.me/share/url?url=" + u + "&text=" + t,
+    x: "https://twitter.com/intent/tweet?url=" + u + "&text=" + t,
+    linkedin: "https://www.linkedin.com/sharing/share-offsite/?url=" + u,
+    facebook: "https://www.facebook.com/sharer/sharer.php?u=" + u,
+    email: "mailto:?subject=" + t + "&body=" + t + "%0A%0A" + u,
+  };
+  $$("a[data-net]", shareMenu).forEach((a) => (a.href = nets[a.dataset.net]));
+  if (navigator.share) $('[data-net="native"]', shareMenu).hidden = false;
+  const setMenu = (on) => { shareMenu.classList.toggle("on", on); shareBtn.setAttribute("aria-expanded", on); };
+  shareBtn.addEventListener("click", (e) => { e.stopPropagation(); setMenu(!shareMenu.classList.contains("on")); });
+  shareMenu.addEventListener("click", async (e) => {
+    const item = e.target.closest("[data-net]"); if (!item) return;
+    if (item.dataset.net === "copy") {
+      try { await navigator.clipboard.writeText(url); }
+      catch (_) { const ta = document.createElement("textarea"); ta.value = url; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); } catch (__) {} ta.parentNode.removeChild(ta); }
+      toast.textContent = "Link copiado"; toast.classList.add("on"); clearTimeout(tt);
+      tt = setTimeout(() => { toast.classList.remove("on"); toast.textContent = "Prompt copiado"; }, 1400);
+    } else if (item.dataset.net === "native") {
+      try { await navigator.share({ title, url }); } catch (_) {}
+    }
+    setMenu(false);
+  });
+  document.addEventListener("click", (e) => { if (!e.target.closest(".share")) setMenu(false); });
+  addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
+
+  // trilho das etapas + barra de progresso
+  const rail = $("#rail"), links = $$("#rail a"), secs = links.map((a) => $(a.getAttribute("href"))), railn = $("#railn");
+  const onScroll = () => {
+    const h = document.documentElement; $("#bar").style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + "%";
+    let cur = -1; secs.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * 0.4) cur = i; });
+    rail.classList.toggle("on", cur >= 0);
+    links.forEach((a, i) => { a.classList.toggle("on", i === cur); a.classList.toggle("past", i < cur); });
+    const tl = $$("#toc a");
+    tl.forEach((a, i) => a.classList.toggle("on", i === cur));
+    railn.textContent = String(Math.max(cur, 0) + 1).padStart(2, "0");
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  // ampliar imagem
+  const lb = $("#lb"), li = lb.querySelector("img");
+  $$("img[data-lb]").forEach((im) => im.addEventListener("click", () => { li.src = im.src; li.alt = im.alt; lb.classList.add("on"); }));
+  lb.addEventListener("click", () => lb.classList.remove("on"));
+  addEventListener("keydown", (e) => { if (e.key === "Escape") lb.classList.remove("on"); });
+})();
+</script>
+</body>
+</html>
